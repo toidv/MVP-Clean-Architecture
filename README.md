@@ -1,7 +1,8 @@
-# android
-Android Mobile Project
+# RxJava and Using RxJava in MVP clean architecture
+   A sample for demonstrating RxJava and Using RxJava in MVP clean architecture
 
-Copyright {2016} {toidv}
+# License
+   Copyright 2016, Toi Duong Van
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
