@@ -10,4 +10,10 @@ public interface HomeMvpView extends MvpView {
 
     void addUser(Item item);
 
+    void showProgress(boolean value);
+
+    void createAlertDialog();
+
+    void showAlertDialog(String message);
+
 }

@@ -3,6 +3,7 @@ package com.example.toidv.rxexample.ui.home;
 import com.example.toidv.rxexample.data.DataManager;
 import com.example.toidv.rxexample.data.pojo.Item;
 import com.example.toidv.rxexample.ui.base.BasePresenter;
+import com.example.toidv.rxexample.utils.RxExampleUtils;
 
 import javax.inject.Inject;
 
@@ -29,6 +30,7 @@ public class HomePresenter extends BasePresenter<HomeMvpView> {
     }
 
     public void searchRepo(String search, String sort) {
+        getMvpView().showProgress(true);
         if (mSbuscription != null) {
             mSbuscription.unsubscribe();
         }
@@ -43,17 +45,22 @@ public class HomePresenter extends BasePresenter<HomeMvpView> {
                 .subscribe(new Subscriber<Item>() {
                     @Override
                     public void onCompleted() {
-
+                        getMvpView().showProgress(false);
                     }
 
                     @Override
                     public void onError(Throwable e) {
                         e.printStackTrace();
+                        getMvpView().showProgress(false);
+                        String error = RxExampleUtils.getError(e, mRetrofit);
+                        getMvpView().showAlertDialog(error);
+
 
                     }
 
                     @Override
                     public void onNext(Item item) {
+                        getMvpView().showProgress(false);
                         getMvpView().addUser(item);
 
                     }

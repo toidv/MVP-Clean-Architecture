@@ -28,6 +28,9 @@
 
         <activity android:name=".ui.repo.ReposActivity" />
 
+        <activity
+            android:name=".ui.rxexample.RxSampleDemo"
+            android:launchMode="singleTop" />
     </application>
 
 </manifest>

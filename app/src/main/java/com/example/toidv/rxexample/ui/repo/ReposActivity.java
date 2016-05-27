@@ -64,7 +64,8 @@ public class ReposActivity extends BaseActivity implements ReposMvpView {
                 mReposPresenter.attachView(ReposActivity.this);
                 subscriber.onCompleted();
             }
-        }).subscribeOn(Schedulers.io())
+        })
+                .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<String>() {
                     @Override

@@ -10,13 +10,17 @@ import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.Menu;
+import android.view.View;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.example.toidv.rxexample.R;
 import com.example.toidv.rxexample.consts.Consts;
 import com.example.toidv.rxexample.data.pojo.Item;
 import com.example.toidv.rxexample.ui.adapter.SearchAdapter;
 import com.example.toidv.rxexample.ui.base.BaseActivity;
+import com.example.toidv.rxexample.utils.RxExampleUtils;
 import com.jakewharton.rxbinding.support.v7.widget.RxSearchView;
+import com.pnikosis.materialishprogress.ProgressWheel;
 
 import java.util.concurrent.TimeUnit;
 
@@ -33,13 +37,22 @@ import rx.schedulers.Schedulers;
 public class HomeActivity extends BaseActivity implements HomeMvpView {
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
-    @Inject
-    HomePresenter mHomePresenter;
+
     @BindView(R.id.recycler_view_favourite)
     RecyclerView mRecyclerView;
+
+    @BindView(R.id.progress_wheel)
+    ProgressWheel mProgressWheel;
+
+    @Inject
+    HomePresenter mHomePresenter;
+
+
     private String mQuery;
     private SearchAdapter adapter;
     private SearchView mSearchView;
+
+    private MaterialDialog mAlertDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +61,7 @@ public class HomeActivity extends BaseActivity implements HomeMvpView {
         ButterKnife.bind(this);
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+        createAlertDialog();
         setupComponent();
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -106,6 +120,7 @@ public class HomeActivity extends BaseActivity implements HomeMvpView {
                     public void onError(Throwable e) {
                         e.printStackTrace();
 
+
                     }
 
                     @Override
@@ -153,6 +168,26 @@ public class HomeActivity extends BaseActivity implements HomeMvpView {
     @Override
     public void addUser(Item item) {
         adapter.addItem(item);
+    }
+
+    @Override
+    public void showProgress(boolean value) {
+        if (value) {
+            mProgressWheel.setVisibility(View.VISIBLE);
+        } else {
+            mProgressWheel.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    public void createAlertDialog() {
+        mAlertDialog = RxExampleUtils.createAlertDialog(this, getString(R.string.title_alert));
+    }
+
+    @Override
+    public void showAlertDialog(String message) {
+        mAlertDialog.setContent(message);
+        mAlertDialog.show();
     }
 
 }
